@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('balans', function (Blueprint $table) {
             $table->id();
             $table->string('factory_id');
-            $table->string('messege');
-            $table->string('hisoblandi');
-            $table->string('tolandi');
+            $table->integer('messege');
+            $table->integer('hisoblandi');
+            $table->integer('tolandi');
             $table->timestamps();
         });
     }
