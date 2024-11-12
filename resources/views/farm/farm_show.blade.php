@@ -1,5 +1,5 @@
 @extends('layouts.layout2')
-@section('title', 'Farm')
+@section('title', 'Farm show')
 @section('content')
 <main id="main" class="main">
     <div class="pagetitle">
@@ -41,7 +41,7 @@
                         <h3 class="card-title w-100 text-center">Update</h3>
                         <form action="{{ route('farm_update', $Farm['id'] ) }}" method="post">
                             @csrf 
-                            @method('PUT')
+                            @method('PUT') 
                             <div class="row">
                                 <div class="col-6">
                                     <label for="factory_name" class="mt-2">Ferma nomi</label>
@@ -146,18 +146,19 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="#" method="post">
+                                        <form action="{{ route('farm_create_paymart', $Farm['id'] ) }}" method="post">
                                             @csrf 
-                                            <label for="">To'lov summasi</label>
-                                            <input type="number" name="factory_name" required class="form-control">
-                                            <label for="" class="mt-2">To'lov turi</label>
-                                            <select name="" id="" class="form-select">
+                                            @method('put')
+                                            <label for="summa">To'lov summasi</label>
+                                            <input type="number" name="summa" required class="form-control">
+                                            <label for="type" class="mt-2">To'lov turi</label>
+                                            <select name="type" class="form-select" required>
                                                 <option value="">Tanlang</option>
-                                                <option value="">Naqt</option>
-                                                <option value="">Plastik</option>
+                                                <option value="Naqt">Naqt</option>
+                                                <option value="Plastik">Plastik</option>
                                             </select>
-                                            <label for="" class="mt-2">To'lov haqida</label>
-                                            <textarea name="" id="" class="form-control"></textarea>
+                                            <label for="comment" class="mt-2">To'lov haqida</label>
+                                            <textarea name="comment" required class="form-control"></textarea>
                                             <button class="btn btn-primary mt-2 w-100" type="submit">Saqlash</button>
                                         </form>
                                     </div>
@@ -221,7 +222,7 @@
         </div> 
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Firma <span>| to\'lovlari</span></h5>
+                <h5 class="card-title">Firma <span>| to'lovlari</span></h5>
                 <table class="table table-bordered text-center" style="font-size:14px;">
                     <thead>
                         <tr>
@@ -229,12 +230,33 @@
                             <th class="text-center">To'lov summasi</th>
                             <th class="text-center">To'lov turi</th>
                             <th class="text-center">To'lov haqida</th>
+                            <th class="text-center">Admin</th>
                             <th class="text-center">To'lov vaqti</th>
                             <th class="text-center">___</th>
                         </tr>
                     </thead>
                     <tbody>
-                        
+                        @forelse($Paymart as $item)
+                            <tr>
+                                <td>{{ $loop->index+1 }}</td>
+                                <td>{{ $item['summa'] }}</td>
+                                <td>{{ $item['type'] }}</td>
+                                <td>{{ $item['comment'] }}</td>
+                                <td>{{ $item['user'] }}</td>
+                                <td>{{ $item['created_at'] }}</td>
+                                <td>
+                                    <form action="{{ route('farm_delete_paymart', $item['id'] ) }}" method="post">
+                                        @csrf 
+                                        @method('delete')
+                                        <button class="btn btn-danger p-0 px-1"><i class="bi bi-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                             <tr>
+                                <td colspan='7' class='text-center'>To'lovlar mavjud emas.</td>
+                             </tr>   
+                        @endforelse
                     </tbody>
                 </table>
             </div>

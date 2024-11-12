@@ -98,50 +98,50 @@
       </li>
       @if(Auth::user()->type=='despetcher')
       <li class="nav-item">
-        <a class="nav-link collapsed" href="buyurtma.html">
+        <a class="nav-link collapsed" href="{{ route('orders') }}">
           <i class="bi bi-collection"></i>
           <span>Buyurtmalar</span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link collapsed" href="report.html">
+        <a class="nav-link collapsed" href="{{ route('report') }}">
           <i class="bi bi-file-earmark-excel"></i>
           <span>Hisobot</span>
         </a>
       </li>
       @elseif(Auth::user()->type=='drektor')
       <li class="nav-item">
-        <a class="nav-link collapsed" href="buyurtma.html">
+        <a class="nav-link collapsed" href="{{ route('orders') }}">
           <i class="bi bi-collection"></i>
           <span>Buyurtmalar</span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link collapsed" href="report.html">
+        <a class="nav-link collapsed" href="{{ route('report') }}">
           <i class="bi bi-file-earmark-excel"></i>
           <span>Hisobot</span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link collapsed" href="hodimlar.html">
+        <a class="nav-link collapsed" href="{{ route('hodim') }}">
           <i class="bi bi-people"></i>
           <span>Hodimlar</span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link collapsed" href="hududlar.html">
+        <a class="nav-link collapsed" href="{{ route('hudud') }}">
           <i class="bi bi-geo-alt"></i>
           <span>Hududlar</span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link collapsed" href="paymart.html">
+        <a class="nav-link collapsed" href="{{ route('balans') }}">
           <i class="bi bi-coin"></i>
           <span>Balans</span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link collapsed" href="charts.html">
+        <a class="nav-link collapsed" href="{{ route('charts') }}">
           <i class="bi bi-bar-chart"></i>
           <span>Statistika</span>
         </a>

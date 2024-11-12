@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Farm;
 use App\Models\User;
 use App\Models\Balans;
+use App\Models\Paymart;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -60,7 +61,8 @@ class HomeController extends Controller{
         $Farm = Farm::find($id);
         $User = User::where('factory_id',$id)->where('type','!=','admin')->get();
         $Balans = Balans::where('factory_id',$id)->first();
-        return view('farm.farm_show',compact('Farm','User','Balans'));
+        $Paymart = Paymart::where('factory_id',$id)->get();
+        return view('farm.farm_show',compact('Farm','User','Balans','Paymart'));
     }
     public function farm_update(Request $request, $id){
         $validated = $request->validate([
@@ -112,5 +114,34 @@ class HomeController extends Controller{
         $User = User::find($id);
         $User->delete();
         return redirect()->back()->with('success', 'Hodim o\'chirildi');
+    }
+    public function farm_create_paymart(Request $request, $id){
+        $validated = $request->validate([
+            'summa' => 'required',
+            'type' => 'required',
+            'comment' => 'required',
+        ]);
+        Paymart::create([
+            'factory_id'=>$id,
+            'summa'=>$request->summa,
+            'type'=>$request->type,
+            'comment'=>$request->comment,
+            'user'=>auth()->user()->email,
+        ]);
+        $Balans = Balans::where('factory_id',$id)->first();
+        $Arxiv = $Balans->tolandi;
+        $Balans->tolandi = $Arxiv + $request->summa;
+        $Balans->save();
+        return redirect()->back()->with('success', 'Yangi to\'lov qo\'shildi.');
+    }
+    public function farm_delete_paymart($id){
+        $Paymart = Paymart::find($id);
+        $factory_id = $Paymart->factory_id;
+        $summa = $Paymart->summa;
+        $Balans = Balans::where('factory_id',$factory_id)->first();
+        $Balans->tolandi = $Balans->tolandi-$summa;
+        $Balans->save();
+        $Paymart->delete();
+        return redirect()->back()->with('success', 'To\'lov o\'chirildi');
     }
 }
